@@ -3,9 +3,12 @@ package az.company.employeesystem.controller;
 import az.company.employeesystem.model.Employee;
 import az.company.employeesystem.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -23,5 +26,16 @@ public class EmployeeController {
     @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
         return employeeService.getAllEmployees();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Map<String,Boolean>> deleteEmployee(@PathVariable Long id) {
+        boolean deleted = false;
+        deleted = employeeService.deleteEmployee(id);
+
+        Map<String,Boolean> response = new HashMap<>();
+        response.put("deleted", deleted);
+
+        return ResponseEntity.ok(response);
     }
 }
