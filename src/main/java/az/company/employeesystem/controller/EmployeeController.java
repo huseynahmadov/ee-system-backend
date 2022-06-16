@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
@@ -28,7 +28,7 @@ public class EmployeeController {
         return employeeService.getAllEmployees();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/employees/{id}")
     public ResponseEntity<Map<String,Boolean>> deleteEmployee(@PathVariable Long id) {
         boolean deleted = false;
         deleted = employeeService.deleteEmployee(id);
@@ -38,4 +38,21 @@ public class EmployeeController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
+        Employee employee = null;
+        employee = employeeService.getEmployeeById(id);
+
+        return ResponseEntity.ok(employee);
+    }
+
+    @PutMapping("/employees/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id,
+                                                   @RequestBody Employee employee) {
+        employee = employeeService.updateEmployee(id, employee);
+
+        return ResponseEntity.ok(employee);
+    }
+
 }
